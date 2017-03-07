@@ -46,7 +46,8 @@ public enum tkCateg {
 	tk_do(43), 
 	tk_for(44), 
 	tk_in(45), 
-	tk_out(46);
+	tk_out(46), 
+	tkOpr_neg(47);
 	
 	private int value;
 	
