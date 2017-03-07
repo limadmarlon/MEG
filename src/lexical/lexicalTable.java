@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class lexicalTable {
+public class LexicalTable {
 
 	public static Map<String, tkCateg> lexemMap = new HashMap<>();
 	public static Map<String, tkCateg> delimitadorMap = new HashMap<>();
-	public static List symbolList = new ArrayList<>();
+	public static ArrayList<Character> symbolList = new ArrayList<Character>();
 
 	static{
 		//operadores
@@ -59,6 +59,8 @@ public class lexicalTable {
 		lexemMap.put("int", tkCateg.tkType_int);
 		lexemMap.put("char", tkCateg.tkType_char);
 		lexemMap.put("string", tkCateg.tkType_string);
+		lexemMap.put("array", tkCateg.tkLit_array);
+		lexemMap.put("float", tkCateg.tkLit_float);
 		lexemMap.put("bool", tkCateg.tkType_bool);
 		
 		lexemMap.put("if", tkCateg.tk_if);
@@ -67,12 +69,43 @@ public class lexicalTable {
 		lexemMap.put("do", tkCateg.tk_do);
 		lexemMap.put("for", tkCateg.tk_for);
 		lexemMap.put("end", tkCateg.tk_end);
-		
 		lexemMap.put("then", tkCateg.tk_then);
 		lexemMap.put("return", tkCateg.tk_return);
 		lexemMap.put("input", tkCateg.tk_in);
 		lexemMap.put("output", tkCateg.tk_out);
 		
+
+		lexemMap.put("&", tkCateg.tkOpr_log);
+		lexemMap.put("|", tkCateg.tkOpr_log);
+		lexemMap.put("!", tkCateg.tkOpr_neg);
+		
+
+		lexemMap.put("#T", tkCateg.tkLit_bool);
+		lexemMap.put("#F", tkCateg.tkLit_bool);
+		
+		// Simbolos que podem indicador proximo token
+		symbolList.add(' ');
+		symbolList.add(',');
+		symbolList.add(';');
+		symbolList.add('+');
+		symbolList.add('-');
+		symbolList.add('*');
+		symbolList.add('\\');
+		symbolList.add('/');
+		symbolList.add('#');
+		symbolList.add('$');
+		symbolList.add('<');
+		symbolList.add('>');
+		symbolList.add('=');
+		symbolList.add('~');
+		symbolList.add('(');
+		symbolList.add(')');
+		symbolList.add('[');
+		symbolList.add(']');
+		symbolList.add('{');
+		symbolList.add('}');
+		symbolList.add('\'');
+		symbolList.add('"');
 		
 	}
 }
