@@ -5,7 +5,6 @@ public class Token {
 	private String value;
 	private tkCateg category;
 	private int line;
-	private int column;
 	
 	public Token() {
 		
@@ -34,13 +33,5 @@ public class Token {
 
 	public void setLine(int line) {
 		this.line = line;
-	}
-
-	public int getColumn() {
-		return column;
-	}
-
-	public void setColumn(int column) {
-		this.column = column;
 	}
 }
