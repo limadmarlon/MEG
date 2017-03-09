@@ -12,7 +12,6 @@ import lexical.tkCateg;
 
 public class Analyzer {
 
-<<<<<<< HEAD
 	private String code;
 	private String tokenName;
 	private tkCateg categ;
@@ -49,72 +48,71 @@ public class Analyzer {
 		
 		ignoreSpecial();
 
-		/////////Commentery tokens///////////////////
-		////////CommentBlock/////////
-		if(code.charAt(count) == '/'){
-			categ = tkCateg.tkDel_comB_enter;
-			count++;
-			if(code.charAt(count) == '*'){
-				categ = tkCateg.tkDel_comB_enter;
+		//garante que não irá lançar um exception 
+		code.charAt(count);
+		
+		categ = tkCateg.tkOpr_log;
+		if(code.charAt(count) == '&') {count++; return new Token();}
+		if(code.charAt(count) == '|') {count++; return new Token();}
+		
+		categ = tkCateg.tkOpr_neg;
+		if(code.charAt(count) == '!') {count++; return new Token();}
+
+		categ = tkCateg.tkOpr_sum;
+		if(code.charAt(count) == '-') {count++; return new Token();}
+		if(code.charAt(count) == '+'){
+			if(code.charAt(count+1) == '+'){
+				//implement concat
+				categ = tkCateg.tkOpr_concat;
+				count=+2;
+				return new Token();
+			}else{						
+				//implement plus
 				count++;
-				if(code.charAt(count) == '*'){
-					//token de tkDel_comB_enter
-					categ = tkCateg.tkDel_comB_out;
+				return new Token();
+			}
+		}
+		
+		categ = tkCateg.tkOpr_mul;
+		if(code.charAt(count) == '*') {count++; return new Token();}
+		if(code.charAt(count) == '/'){
+			//commandblock/////////////////////
+			if(code.charAt(count + 1) == '*'){
+				if(code.charAt(count + 2) == '*'){
+					categ=tkCateg.tk_start;
+					count+=3;
 					ignoreCommentBlock();
 					return nextToken();
 				}
 				categ = tkCateg.tk_start;
 				count = initToken;
 			}
-			categ = tkCateg.tk_start;
-			count = initToken;
-		}
-		/////////////ComentLine////////////
-		if(code.charAt(count) == '/'){
-			categ = tkCateg.tkDel_comL;
-			count++;
+			//ComentLine///////////////////////
 			if(code.charAt(count) == '/'){
+				categ=tkCateg.tk_start;
+				count+=2;
 				ignoreCommentLine();
 				return nextToken();
 			}
-			categ = tkCateg.tk_start;
-			count = initToken;
-		}
-		
-		/////////////////////////////////////////////
-		//////////symbols////////////////////////////
-		
-		//garante que não irá lançar um exception 
-		code.charAt(count);
-		
-		
-		categ = tkCateg.tkOpr_log;
-		if(code.charAt(count) == '&') return new Token();
-		if(code.charAt(count) == '|') return new Token();
-		
-		categ = tkCateg.tkOpr_neg;
-		if(code.charAt(count) == '!') return new Token();
-		
-
-		categ = tkCateg.tkOpr_sum;
-		if(code.charAt(count) == '+'){
 			count++;
-			if(code.charAt(count) == '+'){
-				//implement concat
-				categ = tkCateg.tkOpr_concat;
-				return new Token();
-			}else{						
-				//implement plus
-				return new Token();
-			}
+			return new Token();
 		}
-		if(code.charAt(count) == '-') return new Token();
 		
-		categ = tkCateg.tkOpr_mul;
-		if(code.charAt(count) == '*') return new Token();
-		if(code.charAt(count) == '/') return new Token();
+		categ = tkCateg.tkOpr_r;
+		if(code.charAt(count) == '<') {count++; return new Token();}
+		if(code.charAt(count) == '>') {count++; return new Token();}
+		if(code.charAt(count) == '<' && code.charAt(count) == '=') {count+=2; return new Token();}
+		if(code.charAt(count) == '>' && code.charAt(count) == '=') {count+=2; return new Token();}
+		if(code.charAt(count) == '=' && code.charAt(count) == '=') {count+=2; return new Token();}
 		
+		categ = tkCateg.tkOpr_index_enter;
+		if(code.charAt(count) == '[') {count++; return new Token();}
 		
+		categ = tkCateg.tkOpr_index_out;
+		if(code.charAt(count) == ']') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_comma;
+		if(code.charAt(count) == ',') {count++; return new Token();}
 		
 		/////////////////////////////////////////////
 		//////////id/////////////////////////////////
@@ -181,10 +179,8 @@ public class Analyzer {
 		while(!outOfBlock){
 			
 			if(code.charAt(count) == '*'){
-				count++;
-				if(code.charAt(count) == '*'){
-					count++;
-					if(code.charAt(count) == '/'){
+				if(code.charAt(count+1) == '*'){
+					if(code.charAt(count+2) == '/'){
 						outOfBlock = true;
 					}
 				}
@@ -194,9 +190,10 @@ public class Analyzer {
 	}
 	
 	private void ignoreCommentLine() throws StringIndexOutOfBoundsException{
-		while(!code.charAt(count) == '\n'){
+		while(!(code.charAt(count) == '\n')){
 				count++;
 				initToken++;
 		}
+		count++;
 	}
 }
