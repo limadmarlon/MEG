@@ -74,8 +74,8 @@ public class Analyzer {
 			categ = tkCateg.tkDel_comL;
 			count++;
 			if(code.charAt(count) == '/'){
-				//return tkDel_comL
-				return new Token();
+				ignoreCommentLine();
+				return nextToken();
 			}
 			categ = tkCateg.tk_start;
 			count = initToken;
@@ -97,19 +97,23 @@ public class Analyzer {
 		
 
 		categ = tkCateg.tkOpr_sum;
-		if(code.charAt(count) == '+') return new Token();
+		if(code.charAt(count) == '+'){
+			count++;
+			if(code.charAt(count) == '+'){
+				//implement concat
+				categ = tkCateg.tkOpr_concat;
+				return new Token();
+			}else{						
+				//implement plus
+				return new Token();
+			}
+		}
+		if(code.charAt(count) == '-') return new Token();
 		
 		categ = tkCateg.tkOpr_mul;
 		if(code.charAt(count) == '*') return new Token();
 		if(code.charAt(count) == '/') return new Token();
 		
-		categ = tkCateg.tkOpr_;
-		if(code.charAt(count) == '*') return new Token();
-		if(code.charAt(count) == '/') return new Token();
-		
-		categ = tkCateg.tkOpr_inv;
-		categ = tkCateg.tkOpr_inv;
-		if(code.charAt(count) == '-') return new Token();
 		
 		
 		/////////////////////////////////////////////
@@ -195,37 +199,4 @@ public class Analyzer {
 				initToken++;
 		}
 	}
-	
-
-=======
-	private List<String> linesList;
-	private String filePath;
-	private final char LINE_BREAK = '\n';
-	
-	public Analyzer(String filePath) {
-		linesList = new ArrayList<>();
-		this.filePath = filePath;
-	}
-	
-	public void readFile() {
-
-		BufferedReader br;
-
-		try {
-			br = new BufferedReader(new FileReader(filePath));
-
-			String brLine = br.readLine();
-
-			while (brLine != null) {
-				linesList.add(brLine);
-				brLine = br.readLine();
-			}
-			br.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	
->>>>>>> branch 'master' of https://github.com/limadmarlon/MEG.git
 }
