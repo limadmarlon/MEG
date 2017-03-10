@@ -48,8 +48,8 @@ public class Analyzer {
 		
 		ignoreSpecial();
 
-		//garante que não irá lançar um exception 
-		code.charAt(count);
+		//garante que nï¿½o irï¿½ lanï¿½ar um exception 
+		//code.charAt(count);
 		
 		categ = tkCateg.tkOpr_log;
 		if(code.charAt(count) == '&') {count++; return new Token();}
@@ -84,8 +84,6 @@ public class Analyzer {
 					ignoreCommentBlock();
 					return nextToken();
 				}
-				categ = tkCateg.tk_start;
-				count = initToken;
 			}
 			//ComentLine///////////////////////
 			if(code.charAt(count) == '/'){
@@ -94,16 +92,20 @@ public class Analyzer {
 				ignoreCommentLine();
 				return nextToken();
 			}
+			//Division
 			count++;
 			return new Token();
 		}
 		
+		categ = tkCateg.tkOpr_att;
+		if(code.charAt(count) == '=') {count++; return new Token();}
+		
 		categ = tkCateg.tkOpr_r;
 		if(code.charAt(count) == '<') {count++; return new Token();}
 		if(code.charAt(count) == '>') {count++; return new Token();}
-		if(code.charAt(count) == '<' && code.charAt(count) == '=') {count+=2; return new Token();}
-		if(code.charAt(count) == '>' && code.charAt(count) == '=') {count+=2; return new Token();}
-		if(code.charAt(count) == '=' && code.charAt(count) == '=') {count+=2; return new Token();}
+		if(code.charAt(count) == '<' && code.charAt(count+1) == '=') {count+=2; return new Token();}
+		if(code.charAt(count) == '>' && code.charAt(count+1) == '=') {count+=2; return new Token();}
+		if(code.charAt(count) == '=' && code.charAt(count+1) == '=') {count+=2; return new Token();}
 		
 		categ = tkCateg.tkOpr_index_enter;
 		if(code.charAt(count) == '[') {count++; return new Token();}
@@ -113,6 +115,36 @@ public class Analyzer {
 		
 		categ = tkCateg.tkDel_comma;
 		if(code.charAt(count) == ',') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_par_enter;
+		if(code.charAt(count) == '(') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_par_out;
+		if(code.charAt(count) == ')') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_bra_enter;
+		if(code.charAt(count) == '{') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_bra_out;
+		if(code.charAt(count) == '}') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_dot;
+		if(code.charAt(count) == '.') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_scolon;
+		if(code.charAt(count) == ';') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_colon;
+		if(code.charAt(count) == ':') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_comma;
+		if(code.charAt(count) == ',') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_quoteS;
+		if(code.charAt(count) == '\'') {count++; return new Token();}
+		
+		categ = tkCateg.tkDel_quoteD;
+		if(code.charAt(count) == '"') {count++; return new Token();}
 		
 		/////////////////////////////////////////////
 		//////////id/////////////////////////////////
@@ -185,7 +217,7 @@ public class Analyzer {
 					}
 				}
 			}
-			count++;
+			count+=3;
 		}
 	}
 	
