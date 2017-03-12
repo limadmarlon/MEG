@@ -40,19 +40,19 @@ public class Main {
 		catch(IOException ex) {
 			System.out.println(
 					"Error reading file '" 
-							+ fileName + "'");                  
-			// Or we could just do this: 
-			// ex.printStackTrace();
+							+ fileName + "'");               
 		}
 
 		anal = new Analyzer(code);
 		result = anal.nextToken().getValue();
-		
+		Token tk = anal.nextToken();
 		for(int i = 0; i < code.length(); i++){
-			result = result + anal.nextToken().getValue();
+			//result = result + anal.nextToken().getValue();
+			
+			tk = anal.nextToken();
 			
 		}        
-		System.out.println(result);
+		
 
 	}
 

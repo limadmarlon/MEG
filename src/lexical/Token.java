@@ -14,7 +14,12 @@ public class Token {
 		this.category = category;
 		this.pos = line;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "<" + pos +"> " + category + " = '" + value + "'";
+	}
+	
 	public String getValue() {
 		return value;
 	}
