@@ -27,6 +27,7 @@ public class NextTokenTest {
 		}
 		System.out.println(result);
 		assertEquals("if(a<=2)then", result);
+
 	}
 
 }
