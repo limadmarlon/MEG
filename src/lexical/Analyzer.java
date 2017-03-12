@@ -147,7 +147,7 @@ public class Analyzer {
 			tokenName = "";
 			count++;
 			while(!(code.charAt(count) == '\'') || (code.charAt(count-1) == '\\')){
-				tokenName.concat(Character.toString(code.charAt(count)));
+				tokenName = tokenName.concat(Character.toString(code.charAt(count)));
 				count++;
 			}
 			count++;
@@ -160,7 +160,7 @@ public class Analyzer {
 			tokenName = "";
 			count++;
 			while(!(code.charAt(count) == '"') || (code.charAt(count-1) == '\\')){
-				tokenName.concat(Character.toString(code.charAt(count)));
+				tokenName = tokenName.concat(Character.toString(code.charAt(count)));
 				count++;
 			}
 			count++;
@@ -172,15 +172,15 @@ public class Analyzer {
 		if(Character.isDigit(code.charAt(count))){
 			tokenName = "";
 			while((Character.isDigit(code.charAt(count)) || code.charAt(count) == '.')){
-				tokenName.concat(Character.toString(code.charAt(count)));
+				tokenName = tokenName.concat(Character.toString(code.charAt(count)));
 				if(code.charAt(count) =='.'){
 					categ = tkCateg.tkLit_float;
-					if(Character.isDigit(code.charAt(count)))
+					if(!Character.isDigit(code.charAt(count+1)))
 						categ = tkCateg.tk_error;
 					
 					count++;
 					while(Character.isDigit(code.charAt(count))){
-						tokenName.concat(Character.toString(code.charAt(count)));
+						tokenName = tokenName.concat(Character.toString(code.charAt(count)));
 						count++;
 					}
 					//return tkLit_float
@@ -386,7 +386,7 @@ public class Analyzer {
 			tokenName = "";
 			
 			while(Character.isAlphabetic(code.charAt(count)) || code.charAt(count) == '_' ){
-				tokenName.concat(Character.toString(code.charAt(count)));
+				tokenName = tokenName.concat(Character.toString(code.charAt(count)));
 				if(code.charAt(count) =='_'){
 					if(code.charAt(count+1) == '_'){
 						categ = tkCateg.tk_error;

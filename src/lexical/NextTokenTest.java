@@ -19,7 +19,7 @@ public class NextTokenTest {
 	
 	@Test
 	public void HWtest() {
-		String entrada = "intmain(){out\"Hello World\";return0;};";
+		String entrada = "int main(){ out \"Hello World\"; return0; };";
 		Analyzer anal = new Analyzer(entrada);
 		String result = anal.nextToken().getValue();
 		for(int i = 0; i < 12; i++){
