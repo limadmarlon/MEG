@@ -35,3 +35,12 @@ end;
 output (string) aux;
 
 return 0;
+end;
+
+};
+
+int main(){
+
+fib(8);
+
+return 0;

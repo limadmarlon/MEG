@@ -9,10 +9,10 @@ public class Main {
 	public static void main(String [] args) {
 		String code = "";
 		Analyzer anal;
-		String result;
+		Token tk;
 
 		// The name of the file to open.
-		String fileName = "src/temp.txt";
+		String fileName = "src/fibonacci.meg";
 		// This will reference one line at a time
 		String line = null;
 
@@ -44,18 +44,17 @@ public class Main {
 		}
 
 		anal = new Analyzer(code);
-		result = anal.nextToken().getValue();
-		
-		Token tk = anal.nextToken();
+		tk = anal.nextToken();
 		System.out.println(tk.toString());
-		
-		for(int i = 0; i < code.length(); i++){
-			
-			tk = anal.nextToken();
 
-			System.out.println(tk.toString());
+		for(int i = 0; i < code.length(); i++){
+
+			tk = anal.nextToken();
+			if(tk.getCategory() != tkCateg.tk_EOF){
+				System.out.println(tk.toString());
+			}
 		}        
-		
+
 
 	}
 

@@ -1,0 +1,4 @@
+int Main(){
+out "Hello World!"
+return 0;
+};
