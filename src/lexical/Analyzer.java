@@ -1,6 +1,5 @@
 package lexical;
 
-import lexical.LexicalTable;
 import lexical.Token;
 import lexical.tkCateg;
 
@@ -27,10 +26,10 @@ public class Analyzer {
 		}catch (StringIndexOutOfBoundsException e) {
 			if(categ == tkCateg.tk_start){
 				//EOF implement
-				return new Token();
+				return new Token("",tkCateg.tk_EOF,-1);
 			}else{
 				//implement last token
-				return new Token();
+				return new Token(code.substring(initToken, count),categ,initToken);
 			}
 			
 		}
@@ -46,29 +45,29 @@ public class Analyzer {
 		//code.charAt(count);
 		
 		categ = tkCateg.tkOpr_log;
-		if(code.charAt(count) == '&') {count++; return new Token();}
-		if(code.charAt(count) == '|') {count++; return new Token();}
+		if(code.charAt(count) == '&') {count++; return new Token("&",categ,initToken);}
+		if(code.charAt(count) == '|') {count++; return new Token("|",categ,initToken);}
 		
 		categ = tkCateg.tkOpr_neg;
-		if(code.charAt(count) == '!') {count++; return new Token();}
+		if(code.charAt(count) == '!') {count++; return new Token("!",categ,initToken);}
 
 		categ = tkCateg.tkOpr_sum;
-		if(code.charAt(count) == '-') {count++; return new Token();}
+		if(code.charAt(count) == '-') {count++; return new Token("-",categ,initToken);}
 		if(code.charAt(count) == '+'){
 			if(code.charAt(count+1) == '+'){
 				//implement concat
 				categ = tkCateg.tkOpr_concat;
 				count=+2;
-				return new Token();
+				return new Token("++",categ,initToken);
 			}else{						
 				//implement plus
 				count++;
-				return new Token();
+				return new Token("+",categ,initToken);
 			}
 		}
 		
 		categ = tkCateg.tkOpr_mul;
-		if(code.charAt(count) == '*') {count++; return new Token();}
+		if(code.charAt(count) == '*') {count++; return new Token("*",categ,initToken);}
 		if(code.charAt(count) == '/'){
 			//commandblock/////////////////////
 			if(code.charAt(count + 1) == '*'){
@@ -88,58 +87,58 @@ public class Analyzer {
 			}
 			//Division
 			count++;
-			return new Token();
+			return new Token("/",categ,initToken);
 		}
 		
 		categ = tkCateg.tkOpr_att;
-		if(code.charAt(count) == '=') {count++; return new Token();}
+		if(code.charAt(count) == '=') {count++; return new Token("=",categ,initToken);}
 		
 		categ = tkCateg.tkOpr_r;
-		if(code.charAt(count) == '<') {count++; return new Token();}
-		if(code.charAt(count) == '>') {count++; return new Token();}
-		if(code.charAt(count) == '<' && code.charAt(count+1) == '=') {count+=2; return new Token();}
-		if(code.charAt(count) == '>' && code.charAt(count+1) == '=') {count+=2; return new Token();}
-		if(code.charAt(count) == '=' && code.charAt(count+1) == '=') {count+=2; return new Token();}
+		if(code.charAt(count) == '<') {count++; return new Token("<",categ,initToken);}
+		if(code.charAt(count) == '>') {count++; return new Token(">",categ,initToken);}
+		if(code.charAt(count) == '<' && code.charAt(count+1) == '=') {count+=2; return new Token("<=",categ,initToken);}
+		if(code.charAt(count) == '>' && code.charAt(count+1) == '=') {count+=2; return new Token(">=",categ,initToken);}
+		if(code.charAt(count) == '=' && code.charAt(count+1) == '=') {count+=2; return new Token("==",categ,initToken);}
 		
 		categ = tkCateg.tkOpr_index_enter;
-		if(code.charAt(count) == '[') {count++; return new Token();}
+		if(code.charAt(count) == '[') {count++; return new Token("[",categ,initToken);}
 		
 		categ = tkCateg.tkOpr_index_out;
-		if(code.charAt(count) == ']') {count++; return new Token();}
+		if(code.charAt(count) == ']') {count++; return new Token("]",categ,initToken);}
 		
 		categ = tkCateg.tkDel_comma;
-		if(code.charAt(count) == ',') {count++; return new Token();}
+		if(code.charAt(count) == ',') {count++; return new Token(",",categ,initToken);}
 		
 		categ = tkCateg.tkDel_par_enter;
-		if(code.charAt(count) == '(') {count++; return new Token();}
+		if(code.charAt(count) == '(') {count++; return new Token("(",categ,initToken);}
 		
 		categ = tkCateg.tkDel_par_out;
-		if(code.charAt(count) == ')') {count++; return new Token();}
+		if(code.charAt(count) == ')') {count++; return new Token(")",categ,initToken);}
 		
 		categ = tkCateg.tkDel_bra_enter;
-		if(code.charAt(count) == '{') {count++; return new Token();}
+		if(code.charAt(count) == '{') {count++; return new Token("{",categ,initToken);}
 		
 		categ = tkCateg.tkDel_bra_out;
-		if(code.charAt(count) == '}') {count++; return new Token();}
+		if(code.charAt(count) == '}') {count++; return new Token("}",categ,initToken);}
 		
 		categ = tkCateg.tkDel_dot;
-		if(code.charAt(count) == '.') {count++; return new Token();}
+		if(code.charAt(count) == '.') {count++; return new Token(".",categ,initToken);}
 		
 		categ = tkCateg.tkDel_scolon;
-		if(code.charAt(count) == ';') {count++; return new Token();}
+		if(code.charAt(count) == ';') {count++; return new Token(";",categ,initToken);}
 		
 		categ = tkCateg.tkDel_colon;
-		if(code.charAt(count) == ':') {count++; return new Token();}
+		if(code.charAt(count) == ':') {count++; return new Token(":",categ,initToken);}
 		
 		categ = tkCateg.tkDel_comma;
-		if(code.charAt(count) == ',') {count++; return new Token();}
+		if(code.charAt(count) == ',') {count++; return new Token(",",categ,initToken);}
 		
 		categ = tkCateg.tkLit_bool;
 		if(code.charAt(count) == '#') {	
 			count++;
-			if(code.charAt(count) == 'T') {count++; return new Token();}
-			else if (code.charAt(count) == 'F') {count++; return new Token();}
-			else {count ++; return new Token();}//error
+			if(code.charAt(count) == 'T') {count++; return new Token("#T",categ,initToken);}
+			else if (code.charAt(count) == 'F') {count++; return new Token("#F",categ,initToken);}
+			else {count ++; return new Token(code.substring(initToken, count),categ,initToken);}//error
 		}
 			
 		////////////////char literal//////////
@@ -147,10 +146,12 @@ public class Analyzer {
 		if(code.charAt(count) == '\'') {	
 			tokenName = "";
 			count++;
-			while(!(code.charAt(count) == '\'') || (code.charAt(count-1) == '\\'))
+			while(!(code.charAt(count) == '\'') || (code.charAt(count-1) == '\\')){
 				tokenName.concat(Character.toString(code.charAt(count)));
+				count++;
+			}
 			count++;
-			return new Token();
+			return new Token(tokenName,categ,initToken);
 		}
 		
 		//////////////////string literal//////////////
@@ -158,34 +159,38 @@ public class Analyzer {
 		if(code.charAt(count) == '"') {	
 			tokenName = "";
 			count++;
-			while(!(code.charAt(count) == '"') || (code.charAt(count-1) == '\\'))
+			while(!(code.charAt(count) == '"') || (code.charAt(count-1) == '\\')){
 				tokenName.concat(Character.toString(code.charAt(count)));
+				count++;
+			}
 			count++;
-			return new Token();
+			return new Token(tokenName,categ,initToken);
 		}
 		
 		///////literal Number/////////////////////////
 		categ = tkCateg.tkLit_int;
 		if(Character.isDigit(code.charAt(count))){
 			tokenName = "";
-			boolean isInt = true;
 			while((Character.isDigit(code.charAt(count)) || code.charAt(count) == '.')){
 				tokenName.concat(Character.toString(code.charAt(count)));
 				if(code.charAt(count) =='.'){
 					categ = tkCateg.tkLit_float;
+					if(Character.isDigit(code.charAt(count)))
+						categ = tkCateg.tk_error;
+					
 					count++;
 					while(Character.isDigit(code.charAt(count))){
 						tokenName.concat(Character.toString(code.charAt(count)));
 						count++;
 					}
 					//return tkLit_float
-					return new Token();
+					return new Token(tokenName,categ,initToken);
 				}else{
 					count++;
 				}
 			}
 			//return tkLit_float
-			return new Token();
+			return new Token(tokenName,categ,initToken);
 		}
 		
 		//////////words/////////////////////////////////
@@ -201,7 +206,7 @@ public class Analyzer {
 			{
 				count+=3;
 				categ = tkCateg.tkType_int;
-				return new Token();
+				return new Token("int",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'f' && 
@@ -212,7 +217,7 @@ public class Analyzer {
 			{
 				count+=5;
 				categ = tkCateg.tkType_float;
-				return new Token();
+				return new Token("float",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'c' && 
@@ -222,7 +227,7 @@ public class Analyzer {
 			{
 				count+=4;
 				categ = tkCateg.tkType_char;
-				return new Token();
+				return new Token("char",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'b' && 
@@ -232,7 +237,7 @@ public class Analyzer {
 			{
 				count+=4;
 				categ = tkCateg.tkType_bool;
-				return new Token();
+				return new Token("bool",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 's' && 
@@ -244,7 +249,7 @@ public class Analyzer {
 			{
 				count+=6;
 				categ = tkCateg.tkType_string;
-				return new Token();
+				return new Token("string",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'a' && 
@@ -255,7 +260,7 @@ public class Analyzer {
 			{
 				count+=5;
 				categ = tkCateg.tkType_array;
-				return new Token();
+				return new Token("array",categ,initToken);
 			}
 			
 			
@@ -265,7 +270,7 @@ public class Analyzer {
 			{
 				count+=2;
 				categ = tkCateg.tk_if;
-				return new Token();
+				return new Token("if",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'e' && 
@@ -275,7 +280,7 @@ public class Analyzer {
 			{
 				count+=4;
 				categ = tkCateg.tk_else;
-				return new Token();
+				return new Token("else",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'w' && 
@@ -286,7 +291,7 @@ public class Analyzer {
 			{
 				count+=5;
 				categ = tkCateg.tk_while;
-				return new Token();
+				return new Token("while",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 't' && 
@@ -296,7 +301,7 @@ public class Analyzer {
 			{
 				count+=4;
 				categ = tkCateg.tk_then;
-				return new Token();
+				return new Token("then",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'd' && 
@@ -304,7 +309,7 @@ public class Analyzer {
 			{
 				count+=2;
 				categ = tkCateg.tk_do;
-				return new Token();
+				return new Token("do",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'i' && 
@@ -312,7 +317,7 @@ public class Analyzer {
 			{
 				count+=2;
 				categ = tkCateg.tk_in;
-				return new Token();
+				return new Token("in",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'f' && 
@@ -321,7 +326,7 @@ public class Analyzer {
 			{
 				count+=3;
 				categ = tkCateg.tk_for;
-				return new Token();
+				return new Token("for",categ,initToken);
 			}
 			if(	code.charAt(count  ) == 'o' && 
 				code.charAt(count+1) == 'u' && 
@@ -329,7 +334,7 @@ public class Analyzer {
 			{
 				count+=3;
 				categ = tkCateg.tk_out;
-				return new Token();
+				return new Token("out",categ,initToken);
 			}
 			if(	code.charAt(count  ) == 'r' && 
 				code.charAt(count+1) == 'e' && 
@@ -340,7 +345,7 @@ public class Analyzer {
 			{
 				count+=6;
 				categ = tkCateg.tk_return;
-				return new Token();
+				return new Token("return",categ,initToken);
 			}
 			if(	code.charAt(count  ) == 'e' && 
 				code.charAt(count+1) == 'n' && 
@@ -348,7 +353,7 @@ public class Analyzer {
 			{
 				count+=3;
 				categ = tkCateg.tk_do;
-				return new Token();
+				return new Token("end",categ,initToken);
 			}
 			
 			if(	code.charAt(count  ) == 'm' && 
@@ -358,7 +363,7 @@ public class Analyzer {
 			{
 				count+=4;
 				categ = tkCateg.tkMain;
-				return new Token();
+				return new Token("main",categ,initToken);
 			}
 			
 			tokenName = "";
@@ -366,8 +371,8 @@ public class Analyzer {
 			while(Character.isAlphabetic(code.charAt(count)) || code.charAt(count) == '_' ){
 				tokenName.concat(Character.toString(code.charAt(count)));
 				if(code.charAt(count) =='_'){
-					if(code.charAt(count) == '_'){
-						//error
+					if(code.charAt(count+1) == '_'){
+						categ = tkCateg.tk_error;
 					}
 					count++;
 				}else{
@@ -376,7 +381,7 @@ public class Analyzer {
 			}
 			
 			//return tkId
-			return new Token();
+			return new Token(tokenName,categ,initToken);
 		}
 		
 		//////////literal array acredito que não precisa///////////

@@ -4,13 +4,17 @@ public class Token {
 
 	private String value;
 	private tkCateg category;
-	private int line;
+	private int pos;
 	
-	public Token() {
-		
-		
+	
+	
+	public Token(String value, tkCateg category, int line) {
+		super();
+		this.value = value;
+		this.category = category;
+		this.pos = line;
 	}
-	
+
 	public String getValue() {
 		return value;
 	}
@@ -28,10 +32,10 @@ public class Token {
 	}
 
 	public int getLine() {
-		return line;
+		return pos;
 	}
 
 	public void setLine(int line) {
-		this.line = line;
+		this.pos = line;
 	}
 }
