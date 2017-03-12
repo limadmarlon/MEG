@@ -1,6 +1,6 @@
 package lexical;
 
-import java.awt.List;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,9 +42,9 @@ public class LexicalTable {
 		lexemMap.put("{", tkCateg.tkDel_bra_enter);
 		lexemMap.put("}", tkCateg.tkDel_bra_out);
 		
-		lexemMap.put("/**", tkCateg.tkDel_comB_enter);
-		lexemMap.put("/**", tkCateg.tkDel_comB_out);
-		lexemMap.put("//", tkCateg.tkDel_comL);
+		//lexemMap.put("/**", tkCateg.tkDel_comB_enter);
+		//lexemMap.put("/**", tkCateg.tkDel_comB_out);
+		//lexemMap.put("//", tkCateg.tkDel_comL);
 		
 		//terminador
 		lexemMap.put(";", tkCateg.tkDel_scolon);
