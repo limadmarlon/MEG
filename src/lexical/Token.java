@@ -6,8 +6,6 @@ public class Token {
 	private tkCateg category;
 	private int pos;
 	
-	
-	
 	public Token(String value, tkCateg category, int line) {
 		super();
 		this.value = value;

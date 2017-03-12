@@ -37,7 +37,6 @@ public class NextTokenTest {
 		String result = anal.nextToken().getValue();
 		for(int i = 0; i < 12; i++){
 			result = result + anal.nextToken().getValue();
-			//System.out.println(result);
 		}
 		
 		assertEquals("fib(8)", result);
