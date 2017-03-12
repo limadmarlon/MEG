@@ -26,7 +26,7 @@ public class NextTokenTest {
 			result = result + anal.nextToken().getValue();
 		}
 		System.out.println(result);
-		assertEquals("intmain(){out\"Hello World\";return0;};", result);
+		assertEquals("intmain(){outHello World;return0;};", result);
 	}
 
 }
