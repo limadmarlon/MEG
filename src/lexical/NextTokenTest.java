@@ -19,14 +19,14 @@ public class NextTokenTest {
 	
 	@Test
 	public void HWtest() {
-		String entrada = "int main(){ out \"Hello World\"; return0; };";
+		String entrada = "if( a <= 2) then";
 		Analyzer anal = new Analyzer(entrada);
 		String result = anal.nextToken().getValue();
 		for(int i = 0; i < 12; i++){
 			result = result + anal.nextToken().getValue();
 		}
 		System.out.println(result);
-		assertEquals("intmain(){out\"Hello World\";return0;};", result);
+		assertEquals("if(a<=2)then", result);
 	}
 
 }
