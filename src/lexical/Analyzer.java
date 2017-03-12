@@ -197,7 +197,6 @@ public class Analyzer {
 		//////////words/////////////////////////////////
 		
 		if(Character.isAlphabetic(code.charAt(count))){
-			categ = tkCateg.tkId;
 			
 			
 			///////////////tipos///////////////////////
@@ -405,7 +404,7 @@ public class Analyzer {
 			}
 			
 			tokenName = "";
-			
+			categ = tkCateg.tkId;
 			while(Character.isAlphabetic(code.charAt(count)) || code.charAt(count) == '_' ){
 				tokenName = tokenName.concat(Character.toString(code.charAt(count)));
 				if(code.charAt(count) =='_'){
