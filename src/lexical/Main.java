@@ -45,12 +45,15 @@ public class Main {
 
 		anal = new Analyzer(code);
 		result = anal.nextToken().getValue();
+		
 		Token tk = anal.nextToken();
+		System.out.println(tk.toString());
+		
 		for(int i = 0; i < code.length(); i++){
-			//result = result + anal.nextToken().getValue();
 			
 			tk = anal.nextToken();
-			
+
+			System.out.println(tk.toString());
 		}        
 		
 
