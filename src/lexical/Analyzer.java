@@ -29,6 +29,7 @@ public class Analyzer {
 				return new Token("",tkCateg.tk_EOF,-1);
 			}else{
 				//implement last token
+				count = code.length();
 				return new Token(code.substring(initToken, code.length()),categ,initToken);
 			}
 			
