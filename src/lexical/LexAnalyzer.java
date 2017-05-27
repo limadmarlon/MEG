@@ -3,7 +3,8 @@ package lexical;
 import lexical.Token;
 import lexical.tkCateg;
 
-public class Analyzer {
+
+public class LexAnalyzer {
 
 	private String code;
 	private String tokenName;
@@ -11,7 +12,7 @@ public class Analyzer {
 	private int count;
 	private int initToken;
 
-	public Analyzer(String code) {
+	public LexAnalyzer(String code) {
 		super();
 		this.code = code;
 		this.count = 0;

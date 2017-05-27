@@ -7,7 +7,7 @@ import java.io.IOException;
 public class Main {
 	public static void main(String [] args) {
 		String code = "";
-		Analyzer anal;
+		LexAnalyzer anal;
 		Token tk;
 
 		String fileName = "src/fibonacci.meg";
@@ -35,7 +35,7 @@ public class Main {
 							+ fileName + "'");               
 		}
 
-		anal = new Analyzer(code);
+		anal = new LexAnalyzer(code);
 		tk = anal.nextToken();
 		System.out.println(tk.toString());
 

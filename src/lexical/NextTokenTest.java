@@ -9,7 +9,7 @@ public class NextTokenTest {
 	@Test
 	public void NextTokentest() {
 		String entrada = "{}";
-		Analyzer anal = new Analyzer(entrada);
+		LexAnalyzer anal = new LexAnalyzer(entrada);
 		
 		String result = anal.nextToken().getValue();
 		result = result + anal.nextToken().getValue();
@@ -20,7 +20,7 @@ public class NextTokenTest {
 	@Test
 	public void HWtest() {
 		String entrada = "if( a <= 2) then";
-		Analyzer anal = new Analyzer(entrada);
+		LexAnalyzer anal = new LexAnalyzer(entrada);
 		String result = anal.nextToken().getValue();
 		for(int i = 0; i < 12; i++){
 			result = result + anal.nextToken().getValue();
@@ -33,7 +33,7 @@ public class NextTokenTest {
 	@Test
 	public void Funcoestest() {
 		String entrada = "fib(8)";
-		Analyzer anal = new Analyzer(entrada);
+		LexAnalyzer anal = new LexAnalyzer(entrada);
 		String result = anal.nextToken().getValue();
 		for(int i = 0; i < 12; i++){
 			result = result + anal.nextToken().getValue();
@@ -46,7 +46,7 @@ public class NextTokenTest {
 	@Test
 	public void Wholetest() {
 		String entrada = "fib(8)";
-		Analyzer anal = new Analyzer(entrada);
+		LexAnalyzer anal = new LexAnalyzer(entrada);
 		String result = anal.nextToken().getValue();
 		while(anal.nextToken().getCategory() != tkCateg.tk_EOF){
 			result = result + anal.nextToken().getValue();
