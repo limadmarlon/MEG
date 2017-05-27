@@ -17,11 +17,7 @@ public class SintaxAnalyzer {
 	}
 	
 
-private SyntaxNode Code{
-	
-	
-	
-}
+private SyntaxNode Code{}
 private SyntaxNode Coder{}
 
 private SyntaxNode Decl_function{}
@@ -48,6 +44,9 @@ private SyntaxNode Statements{}
 private SyntaxNode Statementsr{}
 
 private SyntaxNode Statement{}
+
+private SyntaxNode ATT{}
+private SyntaxNode ATTr{}
 
 private SyntaxNode Exp{}
 private SyntaxNode Exp{}
