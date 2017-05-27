@@ -20,10 +20,15 @@ public class SintaxAnalyzer {
 private SyntaxNode Code{}
 private SyntaxNode Coder{}
 
-private SyntaxNode Decl_function{}
+//private SyntaxNode Decl_function{}
 
-private SyntaxNode Main{}
+//private SyntaxNode Main{}
 
+private SyntaxNode Decl_Main{}
+
+private SyntaxNode Main_function{}
+
+private SyntaxNode Main_process{}
 
 private SyntaxNode FunCall{}
 private SyntaxNode FunCallParam{}
