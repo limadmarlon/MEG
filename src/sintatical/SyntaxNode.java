@@ -1,6 +1,8 @@
-package lexical;
+package sintatical;
 
 import java.util.ArrayList;
+
+import lexical.Token;
 
 public class SyntaxNode {
 	
