@@ -12,12 +12,10 @@ public class SintaxAnalyzer {
 	public SyntaxNode head;
 	private Token A;
 	private Stack<Integer> sintaxStack;
+	private ParserTable table =  new ParserTable() ;
 	
 	public SintaxAnalyzer(String code) {
-		T = new LexAnalyzer(code);
-		sintaxStack =  new Stack<Integer>();
-		SintaxStack.push(ntCateg.ntCode.getCategValue());
-		CreateAD();
+
 		
 	}
 	
