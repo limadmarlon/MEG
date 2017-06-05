@@ -1,6 +1,10 @@
 package sintatical;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -15,7 +19,12 @@ public class ParserTable {
 	@SuppressWarnings({ "unused", "unchecked" })
 	public ParserTable() {
 		super();
-		table = new LinkedList[50][60];
+		table = new LinkedList[60][50];
+		for (LinkedList<Integer>[] linkedLists : table) {
+			for (LinkedList<Integer> linkedList : linkedLists) {
+				linkedList = new LinkedList<>();
+			}
+		}
 		
 		//------------------- Produção -------------------//
 		//------------------- Code = Decl_Main Coder -------------------//
@@ -24,9 +33,9 @@ public class ParserTable {
 		for (LinkedList<Integer> linkedList : table[ntCateg.ntCode.getCategValue() - 51]) {
 			
 			if(isFirst_Type(j))			
-				table[ntCateg.ntCode.getCategValue() - 51][j].addAll(CTLL(
+				table[ntCateg.ntCode.getCategValue() - 51][j] = CTLL(
 					new Integer[]{	ntCateg.ntDecl_Main.getCategValue(),
-									ntCateg.ntCoder.getCategValue()}));
+									ntCateg.ntCoder.getCategValue()});
 			
 			else table[ntCateg.ntCode.getCategValue() - 51][j]=null;
 			
@@ -41,14 +50,14 @@ public class ParserTable {
 		for (LinkedList<Integer> linkedList : table[ntCateg.ntCoder.getCategValue() - 51]) {
 		
 			if(j == tkCateg.tkDel_scolon.getCategValue() -1) 	
-				table[ntCateg.ntCoder.getCategValue() - 51][j].addAll(CTLL(
+				table[ntCateg.ntCoder.getCategValue() - 51][j] = CTLL(
 					new Integer[]{	tkCateg.tkDel_scolon.getCategValue(),
 									ntCateg.ntDecl_Main.getCategValue(),
-									ntCateg.ntCoder.getCategValue()}));
+									ntCateg.ntCoder.getCategValue()});
 			
 			else if(j == tkCateg.tk_EOF.getCategValue() -1) 	
-				table[ntCateg.ntCoder.getCategValue() - 51][j].addAll(CTLL(
-					new Integer[]{}));
+				table[ntCateg.ntCoder.getCategValue() - 51][j] = CTLL(
+					new Integer[]{});
 			
 			else 
 				table[ntCateg.ntCoder.getCategValue() - 51][j]=null;
@@ -65,9 +74,9 @@ public class ParserTable {
 		for (LinkedList<Integer> linkedList : table[ntCateg.ntDecl_Main.getCategValue() - 51]) {
 			
 			if(isFirst_Type(j))			
-				table[ntCateg.ntDecl_Main.getCategValue() - 51][j].addAll(CTLL(
+				table[ntCateg.ntDecl_Main.getCategValue() - 51][j] = CTLL(
 					new Integer[]{	ntCateg.ntType.getCategValue(),
-									ntCateg.ntMain_function.getCategValue()}));
+									ntCateg.ntMain_function.getCategValue()});
 			
 			else table[ntCateg.ntDecl_Main.getCategValue() - 51][j]=null;
 			
@@ -81,7 +90,7 @@ public class ParserTable {
 		for (LinkedList<Integer> linkedList : table[ntCateg.ntMain_function.getCategValue() - 51]) {
 		
 			if(j == tkCateg.tkId.getCategValue() -1) 
-				table[ntCateg.ntMain_function.getCategValue() - 51][j].addAll(CTLL(
+				table[ntCateg.ntMain_function.getCategValue() - 51][j] = CTLL(
 					new Integer[]{	tkCateg.tkId.getCategValue(),
 									tkCateg.tkDel_par_enter.getCategValue(),
 									ntCateg.ntDecl_param_list.getCategValue(),
@@ -89,12 +98,12 @@ public class ParserTable {
 									tkCateg.tkDel_bra_enter.getCategValue(),
 									ntCateg.ntStatements_return.getCategValue(),
 									tkCateg.tkDel_bra_out.getCategValue(),
-									ntCateg.ntMain_function.getCategValue()}));
+									ntCateg.ntMain_function.getCategValue()});
 			
 			else if(j == tkCateg.tkMain.getCategValue() -1)
-				table[ntCateg.ntMain_function.getCategValue() - 51][j].addAll(CTLL(
+				table[ntCateg.ntMain_function.getCategValue() - 51][j] = CTLL(
 					new Integer[]{	tkCateg.tkMain.getCategValue(),
-									ntCateg.ntMain_process.getCategValue()}));
+									ntCateg.ntMain_process.getCategValue()});
 			
 			else 
 				table[ntCateg.ntMain_function.getCategValue() - 51][j]=null;
@@ -111,17 +120,18 @@ public class ParserTable {
 		for (LinkedList<Integer> linkedList : table[ntCateg.ntMain_process.getCategValue() - 51]) {
 		
 			if(j == tkCateg.tkDel_par_enter.getCategValue() - 1)
-				table[ntCateg.ntMain_process.getCategValue() - 51][j].addAll(CTLL(
+				table[ntCateg.ntMain_process.getCategValue() - 51][j] = CTLL(
 					new Integer[]{	tkCateg.tkDel_par_enter.getCategValue(),
 									tkCateg.tkDel_par_out.getCategValue(),
 									tkCateg.tkDel_bra_enter.getCategValue(),
 									ntCateg.ntStatements_return.getCategValue(),
 									tkCateg.tkDel_bra_out.getCategValue(),
-									tkCateg.tkDel_scolon.getCategValue()}));
+									tkCateg.tkDel_scolon.getCategValue()});
 			
 			else 
 				table[ntCateg.ntMain_process.getCategValue() - 51][j]=null;
 				
+			j++;
 		}
 		//--------------------------------------------------------------//
 		
@@ -132,13 +142,14 @@ public class ParserTable {
 		
 		
 			if(isFirst_Type(j))
-				table[ntCateg.ntDecl.getCategValue() - 51][j].addAll(CTLL(
+				table[ntCateg.ntDecl.getCategValue() - 51][j] = CTLL(
 					new Integer[]{	ntCateg.ntType.getCategValue(),
-									tkCateg.tkId.getCategValue()}));
+									tkCateg.tkId.getCategValue()});
 			
 			else 
 				table[ntCateg.ntDecl.getCategValue() - 51][j]=null;
-
+			
+			j++;
 		}	
 		//--------------------------------------------------------------//
 		
@@ -149,33 +160,34 @@ public class ParserTable {
 			
 				
 				if(j == tkCateg.tkType_int.getCategValue() - 1)
-					table[ntCateg.ntType.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkType_int.getCategValue()}));
+					table[ntCateg.ntType.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkType_int.getCategValue()});
 				
 				else if(j == tkCateg.tkType_bool.getCategValue() - 1)
-					table[ntCateg.ntType.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkType_bool.getCategValue()}));
+					table[ntCateg.ntType.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkType_bool.getCategValue()});
 				
 				else if(j == tkCateg.tkType_float.getCategValue() - 1)
-					table[ntCateg.ntType.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkType_float.getCategValue()}));
+					table[ntCateg.ntType.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkType_float.getCategValue()});
 		 
 				else if(j == tkCateg.tkType_char.getCategValue() - 1)
-					table[ntCateg.ntType.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkType_char.getCategValue()}));	
+					table[ntCateg.ntType.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkType_char.getCategValue()});	
 		
 				else if(j == tkCateg.tkType_array.getCategValue() - 1)
-					table[ntCateg.ntType.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntType.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkType_array.getCategValue(),
-										ntCateg.ntType.getCategValue()}));		
+										ntCateg.ntType.getCategValue()});		
 		
 				else if(j == tkCateg.tkType_string.getCategValue() - 1)
-					table[ntCateg.ntType.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkType_string.getCategValue()}));
+					table[ntCateg.ntType.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkType_string.getCategValue()});
 				
 				else 
 					table[ntCateg.ntType.getCategValue() - 51][j]=null;
-
+				
+				j++;
 			}	
 		//--------------------------------------------------------------//
 			
@@ -185,12 +197,13 @@ public class ParserTable {
 			for (LinkedList<Integer> linkedList : table[ntCateg.ntArrayType.getCategValue() - 51]) {
 				
 				if(j == tkCateg.tkDel_colon.getCategValue() - 1)
-					table[ntCateg.ntArrayType.getCategValue() - 51][tkCateg.tkDel_colon.getCategValue() -1].addAll(CTLL(
+					table[ntCateg.ntArrayType.getCategValue() - 51][tkCateg.tkDel_colon.getCategValue() -1] = CTLL(
 					new Integer[]{	tkCateg.tkDel_colon.getCategValue(),
-									ntCateg.ntStatements_return.getCategValue()}));
+									ntCateg.ntStatements_return.getCategValue()});
 				else 
 					table[ntCateg.ntArrayType.getCategValue() - 51][j]=null;
 			
+				j++;
 			}
 			
 		//--------------------------------------------------------------//
@@ -202,18 +215,18 @@ public class ParserTable {
 			
 			
 				if(isFirst_Type(j))
-					table[ntCateg.ntDecl_param_list.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntDecl_param_list.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntDecl.getCategValue(),
 										tkCateg.tkDel_comma.getCategValue(),
-										ntCateg.ntDecl_param_list.getCategValue()}));
+										ntCateg.ntDecl_param_list.getCategValue()});
 				
 				else if(j == tkCateg.tkDel_bra_out.getCategValue() - 1)
-					table[ntCateg.ntDecl_param_list.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{}));
+					table[ntCateg.ntDecl_param_list.getCategValue() - 51][j] = CTLL(
+						new Integer[]{});
 				
 				else 
 					table[ntCateg.ntDecl_param_list.getCategValue() - 51][j]=null;
-
+				j++;
 			}	
 		//--------------------------------------------------------------//
 			
@@ -224,21 +237,21 @@ public class ParserTable {
 			
 			
 				if( isFirst_Statment(j) )
-					table[ntCateg.ntStatements_return.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntStatements_return.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntStatement.getCategValue(),
 										tkCateg.tkDel_scolon.getCategValue(),
-										ntCateg.ntStatements_return.getCategValue()}));
+										ntCateg.ntStatements_return.getCategValue()});
 
 				else if(j == tkCateg.tk_return.getCategValue() - 1)
-					table[ntCateg.ntStatements_return.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntStatements_return.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tk_return.getCategValue(),
 										ntCateg.ntExp_Start.getCategValue(),
-										tkCateg.tkDel_scolon.getCategValue()}));
+										tkCateg.tkDel_scolon.getCategValue()});
 				
 				else 
 					table[ntCateg.ntStatements_return.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 		//--------------------------------------------------------------//
 			
 		//------------------- Statements_return_op = Statement “;” Statements_return_op | “return” Exp_log “;” | ε  -------------------//
@@ -248,25 +261,25 @@ public class ParserTable {
 			
 			
 				if( isFirst_Statment(j) )
-					table[ntCateg.ntStatements_return_op.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntStatements_return_op.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntStatement.getCategValue(),
 										tkCateg.tkDel_scolon.getCategValue(),
-										ntCateg.ntStatements_return_op.getCategValue()}));
+										ntCateg.ntStatements_return_op.getCategValue()});
 
 				else if(j == tkCateg.tk_return.getCategValue() - 1)
-					table[ntCateg.ntStatements_return_op.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntStatements_return_op.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tk_return.getCategValue(),
 										ntCateg.ntExp_Start.getCategValue(),
-										tkCateg.tkDel_scolon.getCategValue()}));
+										tkCateg.tkDel_scolon.getCategValue()});
 				
 				else if(j == tkCateg.tkDel_bra_out.getCategValue() - 1)
-					table[ntCateg.ntStatements_return_op.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{}));
+					table[ntCateg.ntStatements_return_op.getCategValue() - 51][j] = CTLL(
+						new Integer[]{});
 				
 				else 
 					table[ntCateg.ntStatements_return_op.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 		//--------------------------------------------------------------//
 			
 		//------------------- Exp_start = “id” Id_asfirst | NotId_asFirst  -------------------//
@@ -276,18 +289,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkId.getCategValue() -1 )
-					table[ntCateg.ntExp_Start.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_Start.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkId.getCategValue(),
-										ntCateg.ntId_asfirst.getCategValue()}));
+										ntCateg.ntId_asfirst.getCategValue()});
 
 				else if(isFirst_NotIdAsFirst(j))
-					table[ntCateg.ntExp_Start.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntNotId_asfirst.getCategValue()}));
+					table[ntCateg.ntExp_Start.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntNotId_asfirst.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_Start.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 		//--------------------------------------------------------------//
 			
 		//------------------- Id_asfirst = = ATT | Differ2 | ( “&” | “|” ) Exp_log2 Exp_logr | opr_rel Exp_aritm | ( “+” | “-” ) Exp_aritm2 Exp_aritmr | Exp_aritm2r  -------------------//
@@ -297,36 +310,36 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_att.getCategValue() -1 )
-					table[ntCateg.ntId_asfirst.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntId_asfirst.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_att.getCategValue(),
-										ntCateg.ntATT.getCategValue()}));
+										ntCateg.ntATT.getCategValue()});
 
 				else if(isFirst_Differ2(j))
-					table[ntCateg.ntId_asfirst.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntDiffer2.getCategValue()}));
+					table[ntCateg.ntId_asfirst.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntDiffer2.getCategValue()});
 				
 				else if(j == tkCateg.tkOpr_log.getCategValue() - 1)
-					table[ntCateg.ntId_asfirst.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntId_asfirst.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_log.getCategValue(),
 										ntCateg.ntExp_log2.getCategValue(),
-										ntCateg.ntExp_logr.getCategValue()}));
+										ntCateg.ntExp_logr.getCategValue()});
 				else if(j == tkCateg.tkOpr_r.getCategValue() - 1)
-					table[ntCateg.ntId_asfirst.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntId_asfirst.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_r.getCategValue(),
-										ntCateg.ntExp_aritm.getCategValue()}));
+										ntCateg.ntExp_aritm.getCategValue()});
 				else if(j == tkCateg.tkOpr_sum.getCategValue() - 1)
-					table[ntCateg.ntId_asfirst.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntId_asfirst.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_sum.getCategValue(),
 										ntCateg.ntExp_aritm2.getCategValue(),
-										ntCateg.ntExp_aritmr.getCategValue()}));
+										ntCateg.ntExp_aritmr.getCategValue()});
 				else if(j == tkCateg.tkOpr_mul.getCategValue() - 1)
-					table[ntCateg.ntId_asfirst.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntExp_aritm2r.getCategValue()}));
+					table[ntCateg.ntId_asfirst.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntExp_aritm2r.getCategValue()});
 				
 				else 
 					table[ntCateg.ntId_asfirst.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 		//--------------------------------------------------------------//
 			
 		//------------------- NotId_asFirst = Not_log_value Exp_logr | Una_aritm_value Exp_rel_aritm  -------------------//
@@ -336,19 +349,19 @@ public class ParserTable {
 			
 			
 				if( isFirst_Not_log_value(j) )
-					table[ntCateg.ntNotId_asfirst.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntNotId_asfirst.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntNot_log_value.getCategValue(),
-										ntCateg.ntExp_logr.getCategValue()}));
+										ntCateg.ntExp_logr.getCategValue()});
 
 				else if(isFirst_Una_aritm_value(j))
-					table[ntCateg.ntNotId_asfirst.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntNotId_asfirst.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntUna_aritm_value.getCategValue(),
-										ntCateg.ntExp_rel_aritm.getCategValue()}));
+										ntCateg.ntExp_rel_aritm.getCategValue()});
 				
 				else 
 					table[ntCateg.ntNotId_asfirst.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 		//--------------------------------------------------------------//
 			
 		//------------------- Exp_rel_aritm = ( “==” | “=>” | “>” | “<” | “<=” ) Exp_aritm | ( “+” | “-” ) Exp_aritm2 Exp_aritmr | Exp_aritm2r  -------------------//
@@ -358,24 +371,24 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_r.getCategValue() - 1)
-					table[ntCateg.ntExp_rel_aritm.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_rel_aritm.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_r.getCategValue(),
-										ntCateg.ntExp_aritm.getCategValue()}));
+										ntCateg.ntExp_aritm.getCategValue()});
 
 				else if(j == tkCateg.tkOpr_sum.getCategValue() - 1)
-					table[ntCateg.ntExp_rel_aritm.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_rel_aritm.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_sum.getCategValue(),
 										ntCateg.ntExp_aritm2.getCategValue(),
-										ntCateg.ntExp_aritmr.getCategValue()}));
+										ntCateg.ntExp_aritmr.getCategValue()});
 				
 				else if(j == tkCateg.tkOpr_mul.getCategValue() - 1)
-					table[ntCateg.ntExp_rel_aritm.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntExp_aritm2r.getCategValue()}));
+					table[ntCateg.ntExp_rel_aritm.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntExp_aritm2r.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_rel_aritm.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 		//--------------------------------------------------------------//
 			
 		//------------------- Not_log_value = “!” Log_noId | Log_noId   -------------------//
@@ -386,18 +399,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_neg.getCategValue() - 1)
-					table[ntCateg.ntNot_log_value.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntNot_log_value.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_neg.getCategValue(),
-									tkCateg.tkLit_bool.getCategValue()}));
+									tkCateg.tkLit_bool.getCategValue()});
 
 				else if(j == tkCateg.tkLit_bool.getCategValue() - 1)
-					table[ntCateg.ntNot_log_value.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkLit_bool.getCategValue()}));
+					table[ntCateg.ntNot_log_value.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkLit_bool.getCategValue()});
 				
 				else 
 					table[ntCateg.ntNot_log_value.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -408,18 +421,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_sum.getCategValue() - 1)
-					table[ntCateg.ntUna_aritm_value.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntUna_aritm_value.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_sum.getCategValue(),
-									ntCateg.ntPar_aritm_value.getCategValue()}));
+									ntCateg.ntPar_aritm_value.getCategValue()});
 
 				else if(isFirst_Par_aritm_value(j))
-					table[ntCateg.ntUna_aritm_value.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntPar_aritm_value.getCategValue()}));
+					table[ntCateg.ntUna_aritm_value.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntPar_aritm_value.getCategValue()});
 				
 				else 
 					table[ntCateg.ntUna_aritm_value.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -430,18 +443,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkDel_par_enter.getCategValue() - 1)
-					table[ntCateg.ntPar_aritm_value.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntPar_aritm_value.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkDel_par_enter.getCategValue(),
-										ntCateg.ntExp_Paren_Cast.getCategValue()}));
+										ntCateg.ntExp_Paren_Cast.getCategValue()});
 
 				else if(isFirst_Aritm_NoId(j))
-					table[ntCateg.ntPar_aritm_value.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntAritm_no_id.getCategValue()}));
+					table[ntCateg.ntPar_aritm_value.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntAritm_no_id.getCategValue()});
 				
 				else 
 					table[ntCateg.ntPar_aritm_value.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -452,26 +465,26 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkLit_string.getCategValue() - 1)
-					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkLit_string.getCategValue(),
-										ntCateg.ntCC.getCategValue()}));
+										ntCateg.ntCC.getCategValue()});
 
 				else if(j == tkCateg.tkLit_float.getCategValue() - 1)
-					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkLit_float.getCategValue()}));
+					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkLit_float.getCategValue()});
 				
 				if( j == tkCateg.tkLit_int.getCategValue() - 1)
-					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkLit_int.getCategValue()}));
+					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkLit_int.getCategValue()});
 
 				else if(j == tkCateg.tkLit_char.getCategValue() - 1)
-					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkLit_char.getCategValue()}));
+					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkLit_char.getCategValue()});
 				
 				else 
 					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -482,18 +495,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tk_in.getCategValue() - 1)
-					table[ntCateg.ntATT.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntATT.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkLit_string.getCategValue(),
-										ntCateg.ntCC.getCategValue()}));
+										ntCateg.ntCC.getCategValue()});
 
 				else if(isFirst_Exp_log(j))
-					table[ntCateg.ntATT.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntExp_log.getCategValue()}));
+					table[ntCateg.ntATT.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntExp_log.getCategValue()});
 				
 				else 
 					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -504,14 +517,14 @@ public class ParserTable {
 			
 			
 				if( isFirst_Exp_log(j))
-					table[ntCateg.ntExp_log.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_log.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntExp_log2.getCategValue(),
-										ntCateg.ntExp_logr.getCategValue()}));
+										ntCateg.ntExp_logr.getCategValue()});
 				
 				else 
 					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 		
@@ -522,19 +535,19 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_log.getCategValue() - 1)
-					table[ntCateg.ntExp_logr.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_logr.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_log.getCategValue(),
 										ntCateg.ntExp_log2.getCategValue(),
-										ntCateg.ntExp_logr.getCategValue()}));
+										ntCateg.ntExp_logr.getCategValue()});
 
 				else if(isFollow_Exp_logr(j))
-					table[ntCateg.ntExp_logr.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{}));
+					table[ntCateg.ntExp_logr.getCategValue() - 51][j] = CTLL(
+						new Integer[]{});
 				
 				else 
 					table[ntCateg.ntAritm_no_id.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -545,18 +558,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_neg.getCategValue() - 1)
-					table[ntCateg.ntExp_log2.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_log2.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_neg.getCategValue(),
-									ntCateg.ntvalue_log.getCategValue()}));
+									ntCateg.ntvalue_log.getCategValue()});
 
 				else if(j == tkCateg.tkLit_bool.getCategValue() - 1 || isFirst_Exp_aritm(j))
-					table[ntCateg.ntExp_log2.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntvalue_log.getCategValue()}));
+					table[ntCateg.ntExp_log2.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntvalue_log.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_log2.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -567,17 +580,17 @@ public class ParserTable {
 			
 			
 				if( isFirst_Exp_aritm(j))
-					table[ntCateg.ntvalue_log.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntExp_rel.getCategValue()}));
+					table[ntCateg.ntvalue_log.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntExp_rel.getCategValue()});
 
 				else if(j == tkCateg.tkLit_bool.getCategValue() - 1)
-					table[ntCateg.ntvalue_log.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkLit_bool.getCategValue()}));
+					table[ntCateg.ntvalue_log.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkLit_bool.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_log2.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -588,14 +601,14 @@ public class ParserTable {
 			
 			
 				if( isFirst_Exp_aritm(j))
-					table[ntCateg.ntExp_rel.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_rel.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntExp_aritm.getCategValue(),
-										ntCateg.ntExp_relr.getCategValue()}));
+										ntCateg.ntExp_relr.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_rel.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -606,18 +619,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_r.getCategValue())
-					table[ntCateg.ntExp_relr.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_relr.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_r.getCategValue(),
-										ntCateg.ntExp_aritm.getCategValue()}));
+										ntCateg.ntExp_aritm.getCategValue()});
 				
 				else if( isFollow_Exp_relr(j))
-					table[ntCateg.ntExp_relr.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	}));
+					table[ntCateg.ntExp_relr.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	});
 				
 				else 
 					table[ntCateg.ntExp_relr.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -628,14 +641,14 @@ public class ParserTable {
 			
 			
 				if( isFirst_Exp_aritm(j))
-					table[ntCateg.ntExp_aritm.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_aritm.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntExp_aritm2.getCategValue(),
-										ntCateg.ntExp_aritmr.getCategValue()}));
+										ntCateg.ntExp_aritmr.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_aritm.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 		
@@ -646,19 +659,19 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_log.getCategValue() - 1)
-					table[ntCateg.ntExp_aritmr.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_aritmr.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_sum.getCategValue(),
 										ntCateg.ntExp_aritm2.getCategValue(),
-										ntCateg.ntExp_aritmr.getCategValue()}));
+										ntCateg.ntExp_aritmr.getCategValue()});
 
 				else if(isFollow_Exp_aritmr(j))
-					table[ntCateg.ntExp_aritmr.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{}));
+					table[ntCateg.ntExp_aritmr.getCategValue() - 51][j] = CTLL(
+						new Integer[]{});
 				
 				else 
 					table[ntCateg.ntExp_aritmr.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 		
@@ -669,14 +682,14 @@ public class ParserTable {
 			
 			
 				if( isFirst_Exp_aritm(j) )
-					table[ntCateg.ntExp_aritm2.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_aritm2.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntExp_aritm3.getCategValue(),
-										ntCateg.ntExp_aritm2r.getCategValue()}));
+										ntCateg.ntExp_aritm2r.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_aritm2.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 		
@@ -687,19 +700,19 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_mul.getCategValue() - 1)
-					table[ntCateg.ntExp_aritm2r.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_aritm2r.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_mul.getCategValue(),
 										ntCateg.ntExp_aritm3.getCategValue(),
-										ntCateg.ntExp_aritm2r.getCategValue()}));
+										ntCateg.ntExp_aritm2r.getCategValue()});
 
 				else if(isFollow_Exp_aritm2r(j))
-					table[ntCateg.ntExp_aritm2r.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{}));
+					table[ntCateg.ntExp_aritm2r.getCategValue() - 51][j] = CTLL(
+						new Integer[]{});
 				
 				else 
 					table[ntCateg.ntExp_aritm2r.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -710,18 +723,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_sum.getCategValue() - 1)
-					table[ntCateg.ntExp_aritm3.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_aritm3.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_sum.getCategValue(),
-										ntCateg.ntExp_aritm4.getCategValue()}));
+										ntCateg.ntExp_aritm4.getCategValue()});
 
 				else if(isFirst_Par_aritm_value(j) || j == tkCateg.tkId.getCategValue() -1)
-					table[ntCateg.ntExp_aritm3.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntExp_aritm4.getCategValue()}));
+					table[ntCateg.ntExp_aritm3.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntExp_aritm4.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_aritm3.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -732,18 +745,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkDel_par_enter.getCategValue() - 1)
-					table[ntCateg.ntExp_aritm4.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_aritm4.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkDel_par_enter.getCategValue(),
-										ntCateg.ntExp_Paren_Cast.getCategValue()}));
+										ntCateg.ntExp_Paren_Cast.getCategValue()});
 
 				else if(isFirst_Aritm_NoId(j) || j == tkCateg.tkId.getCategValue() - 1)
-					table[ntCateg.ntExp_aritm4.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntvalue_aritm.getCategValue()}));
+					table[ntCateg.ntExp_aritm4.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntvalue_aritm.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_aritm4.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -754,18 +767,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_concat.getCategValue() - 1)
-					table[ntCateg.ntExp_Paren_Cast.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntCast.getCategValue()}));
+					table[ntCateg.ntExp_Paren_Cast.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntCast.getCategValue()});
 
 				else if(isFirst_Exp_log(j))
-					table[ntCateg.ntExp_Paren_Cast.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntExp_Paren_Cast.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntExp_log.getCategValue(),
-										tkCateg.tkDel_par_out.getCategValue()}));
+										tkCateg.tkDel_par_out.getCategValue()});
 				
 				else 
 					table[ntCateg.ntExp_Paren_Cast.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -776,18 +789,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkId.getCategValue() - 1)
-					table[ntCateg.ntvalue_aritm.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntvalue_aritm.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkId.getCategValue(),
-										ntCateg.ntDiffer2.getCategValue()}));
+										ntCateg.ntDiffer2.getCategValue()});
 
 				else if(isFirst_Aritm_NoId(j))
-					table[ntCateg.ntvalue_aritm.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntAritm_no_id.getCategValue()}));
+					table[ntCateg.ntvalue_aritm.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntAritm_no_id.getCategValue()});
 				
 				else 
 					table[ntCateg.ntvalue_aritm.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 		
@@ -798,22 +811,22 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_index_enter.getCategValue() - 1)
-					table[ntCateg.ntDiffer2.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntDiffer2.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_index_enter.getCategValue(),
-										ntCateg.ntIndex.getCategValue()}));
+										ntCateg.ntIndex.getCategValue()});
 
 				else if(j == tkCateg.tkOpr_concat.getCategValue() - 1)
-					table[ntCateg.ntDiffer2.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntConcat.getCategValue()}));
+					table[ntCateg.ntDiffer2.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntConcat.getCategValue()});
 				
 				else if(j == tkCateg.tkDel_par_enter.getCategValue() - 1)
-					table[ntCateg.ntDiffer2.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntFunCall.getCategValue()}));
+					table[ntCateg.ntDiffer2.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntFunCall.getCategValue()});
 				
 				else 
 					table[ntCateg.ntDiffer2.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -824,18 +837,18 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkOpr_concat.getCategValue() - 1)
-					table[ntCateg.ntConcat.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntConcat.getCategValue()}));
+					table[ntCateg.ntConcat.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntConcat.getCategValue()});
 
 				else if(isFollow_Exp_aritm2r(j) || j == tkCateg.tkId.getCategValue() - 1 ||
 						j == tkCateg.tkOpr_mul.getCategValue() - 1 || j == tkCateg.tkLit_string.getCategValue() - 1)
-					table[ntCateg.ntConcat.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{}));
+					table[ntCateg.ntConcat.getCategValue() - 51][j] = CTLL(
+						new Integer[]{});
 				
 				else 
 					table[ntCateg.ntConcat.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -846,13 +859,13 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkDel_par_enter.getCategValue() - 1)
-					table[ntCateg.ntFunCall.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntFunCall.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkDel_par_enter.getCategValue(),
-										ntCateg.ntFunCallr.getCategValue()}));
+										ntCateg.ntFunCallr.getCategValue()});
 				else 
 					table[ntCateg.ntFunCall.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -863,18 +876,18 @@ public class ParserTable {
 			
 			
 				if( isFirst_Exp_log(j))
-					table[ntCateg.ntFunCallr.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntFunCallr.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntFunCallParam.getCategValue(),
-										tkCateg.tkDel_par_out.getCategValue()}));
+										tkCateg.tkDel_par_out.getCategValue()});
 				
 				else if( j == tkCateg.tkDel_par_out.getCategValue() - 1)
-					table[ntCateg.ntFunCallr.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkDel_par_out.getCategValue()}));
+					table[ntCateg.ntFunCallr.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkDel_par_out.getCategValue()});
 				
 				else 
 					table[ntCateg.ntFunCallr.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -885,14 +898,14 @@ public class ParserTable {
 			
 			
 				if( isFirst_Aritm_NoId(j))
-					table[ntCateg.ntFunCallParam.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntFunCallParam.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntExp_log.getCategValue(),
-										ntCateg.ntFunCallParamr.getCategValue()}));
+										ntCateg.ntFunCallParamr.getCategValue()});
 				
 				else 
 					table[ntCateg.ntFunCallParam.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -903,19 +916,19 @@ public class ParserTable {
 			
 			
 				if(j == tkCateg.tkDel_comma.getCategValue() - 1)
-					table[ntCateg.ntFunCallParam.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntFunCallParam.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkDel_comma.getCategValue(),
 										ntCateg.ntExp_log.getCategValue(),
-										ntCateg.ntFunCallParamr.getCategValue()}));
+										ntCateg.ntFunCallParamr.getCategValue()});
 				
 				else if( j == tkCateg.tkDel_par_out.getCategValue() - 1)
-					table[ntCateg.ntFunCallParam.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{ }));
+					table[ntCateg.ntFunCallParam.getCategValue() - 51][j] = CTLL(
+						new Integer[]{ });
 				
 				else 
 					table[ntCateg.ntFunCallParam.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -926,14 +939,14 @@ public class ParserTable {
 			
 			
 				if(isFirst_Exp_aritm(j))
-					table[ntCateg.ntFunCallParam.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntFunCallParam.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntExp_log.getCategValue(),
-										tkCateg.tkOpr_index_out.getCategValue()}));
+										tkCateg.tkOpr_index_out.getCategValue()});
 				
 				else 
 					table[ntCateg.ntIndex.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -944,15 +957,15 @@ public class ParserTable {
 			
 			
 				if(isFirst_Exp_aritm(j))
-					table[ntCateg.ntCast.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntCast.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	ntCateg.ntCast_Type.getCategValue(),
 										tkCateg.tkDel_par_out.getCategValue(),
-										ntCateg.ntCastParam.getCategValue()}));
+										ntCateg.ntCastParam.getCategValue()});
 				
 				else 
 					table[ntCateg.ntCast.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			//------------------- CastParam = “char” | Exp_aritm4   -------------------//
@@ -962,16 +975,16 @@ public class ParserTable {
 			
 			
 				if(isFirst_Exp_aritm(j))
-					table[ntCateg.ntCastParam.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntExp_aritm4.getCategValue()}));
+					table[ntCateg.ntCastParam.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntExp_aritm4.getCategValue()});
 				else if(j == tkCateg.tkLit_char.getCategValue() -1)
-					table[ntCateg.ntCastParam.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkLit_char.getCategValue()}));
+					table[ntCateg.ntCastParam.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkLit_char.getCategValue()});
 				
 				else 
 					table[ntCateg.ntCastParam.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			//------------------- Cast_Type = “int” | “float” | “char” | “string”  -------------------//
@@ -981,25 +994,25 @@ public class ParserTable {
 			
 			
 				if( j == tkCateg.tkType_string.getCategValue() - 1)
-					table[ntCateg.ntCast_Type.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkType_string.getCategValue()}));
+					table[ntCateg.ntCast_Type.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkType_string.getCategValue()});
 				
 				else if( j == tkCateg.tkType_char.getCategValue() - 1)
-					table[ntCateg.ntCast_Type.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkType_char.getCategValue()}));
+					table[ntCateg.ntCast_Type.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkType_char.getCategValue()});
 				
 				else if( j == tkCateg.tkType_int.getCategValue() - 1)
-					table[ntCateg.ntCast_Type.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkType_int.getCategValue()}));
+					table[ntCateg.ntCast_Type.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkType_int.getCategValue()});
 				
 				else if( j == tkCateg.tkType_float.getCategValue() - 1)
-					table[ntCateg.ntCast_Type.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkType_float.getCategValue()}));
+					table[ntCateg.ntCast_Type.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkType_float.getCategValue()});
 				
 				else 
 					table[ntCateg.ntCast_Type.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -1010,14 +1023,14 @@ public class ParserTable {
 			
 			
 				if(j == tkCateg.tkOpr_concat.getCategValue() - 1)
-					table[ntCateg.ntConcat.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntConcat.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkOpr_concat.getCategValue(),
-										ntCateg.ntConcat2.getCategValue()}));
+										ntCateg.ntConcat2.getCategValue()});
 				
 				else 
 					table[ntCateg.ntConcat.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -1028,21 +1041,21 @@ public class ParserTable {
 			
 			
 				if(j == tkCateg.tkId.getCategValue() - 1)
-					table[ntCateg.ntConcat2.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkId.getCategValue()}));
+					table[ntCateg.ntConcat2.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkId.getCategValue()});
 				
 				else if(j == tkCateg.tkLit_string.getCategValue() - 1)
-					table[ntCateg.ntConcat2.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tkLit_string.getCategValue()}));
+					table[ntCateg.ntConcat2.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tkLit_string.getCategValue()});
 				
 				else if(isFirst_Exp_aritm(j))
-					table[ntCateg.ntConcat2.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	ntCateg.ntCast.getCategValue()}));
+					table[ntCateg.ntConcat2.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	ntCateg.ntCast.getCategValue()});
 				
 				else 
 					table[ntCateg.ntConcat.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -1053,14 +1066,14 @@ public class ParserTable {
 			
 			
 				if(j == tkCateg.tk_out.getCategValue() - 1)
-					table[ntCateg.ntOutput.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntOutput.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tk_out.getCategValue(),
-										ntCateg.ntOP.getCategValue()}));
+										ntCateg.ntOP.getCategValue()});
 				
 				else 
 					table[ntCateg.ntConcat.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -1071,25 +1084,25 @@ public class ParserTable {
 			
 			
 				if(j == tkCateg.tkId.getCategValue() - 1)
-					table[ntCateg.ntOP.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntOP.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkId.getCategValue(),
 										ntCateg.ntConcat.getCategValue(),
-										ntCateg.ntOP.getCategValue()}));
+										ntCateg.ntOP.getCategValue()});
 				
 				else if(j == tkCateg.tkLit_string.getCategValue() - 1)
-					table[ntCateg.ntOP.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntOP.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tkLit_string.getCategValue(),
 										ntCateg.ntConcat.getCategValue(),
-										ntCateg.ntOP.getCategValue()}));
+										ntCateg.ntOP.getCategValue()});
 				
 				else if(j == tkCateg.tkDel_scolon.getCategValue() -1)
-					table[ntCateg.ntOP.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{}));
+					table[ntCateg.ntOP.getCategValue() - 51][j] = CTLL(
+						new Integer[]{});
 				
 				else 
 					table[ntCateg.ntOP.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -1100,17 +1113,17 @@ public class ParserTable {
 			
 			
 				if(j == tkCateg.tk_if.getCategValue() - 1)
-					table[ntCateg.ntIF_THEN.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntIF_THEN.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tk_if.getCategValue(),
 										ntCateg.ntExp_log.getCategValue(),
 										tkCateg.tk_then.getCategValue(),
 										ntCateg.ntStatements_return_op.getCategValue(),
-										ntCateg.ntELSE.getCategValue()}));
+										ntCateg.ntELSE.getCategValue()});
 				
 				else 
 					table[ntCateg.ntIF_THEN.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -1121,18 +1134,18 @@ public class ParserTable {
 			
 			
 				if(j == tkCateg.tk_end.getCategValue() - 1)
-					table[ntCateg.ntELSE.getCategValue() - 51][j].addAll(CTLL(
-						new Integer[]{	tkCateg.tk_end.getCategValue()}));
+					table[ntCateg.ntELSE.getCategValue() - 51][j] = CTLL(
+						new Integer[]{	tkCateg.tk_end.getCategValue()});
 				
 				else if(j == tkCateg.tk_else.getCategValue() - 1)
-					table[ntCateg.ntELSE.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntELSE.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tk_else.getCategValue(),
 										ntCateg.ntStatements_return_op.getCategValue(),
-										tkCateg.tk_end.getCategValue()}));
+										tkCateg.tk_end.getCategValue()});
 				else 
 					table[ntCateg.ntELSE.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -1143,17 +1156,17 @@ public class ParserTable {
 			
 			
 				if(j == tkCateg.tk_while.getCategValue() - 1)
-					table[ntCateg.ntWHILE.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntWHILE.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tk_while.getCategValue(),
 										ntCateg.ntExp_log.getCategValue(),
 										tkCateg.tk_then.getCategValue(),
 										ntCateg.ntStatements_return_op.getCategValue(),
-										tkCateg.tk_end.getCategValue()}));
+										tkCateg.tk_end.getCategValue()});
 				
 				else 
 					table[ntCateg.ntWHILE.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 			
@@ -1164,18 +1177,18 @@ public class ParserTable {
 			
 			
 				if(j == tkCateg.tk_for.getCategValue() - 1)
-					table[ntCateg.ntFOR.getCategValue() - 51][j].addAll(CTLL(
+					table[ntCateg.ntFOR.getCategValue() - 51][j] = CTLL(
 						new Integer[]{	tkCateg.tk_for.getCategValue(),
 										ntCateg.ntExp_aritm.getCategValue(),
 										tkCateg.tkDel_colon.getCategValue(),
 										ntCateg.ntExp_aritm.getCategValue(),
 										tkCateg.tk_then.getCategValue(),
 										ntCateg.ntStatements_return_op.getCategValue(),
-										tkCateg.tk_end.getCategValue()}));
+										tkCateg.tk_end.getCategValue()});
 				else 
 					table[ntCateg.ntFOR.getCategValue() - 51][j]=null;
 
-			}	
+			j++;}	
 			
 		//--------------------------------------------------------------//
 		
@@ -1260,7 +1273,7 @@ public class ParserTable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private LinkedList<Integer> CTLL(Integer production[]){
 		
-		return (LinkedList)Arrays.asList(production);
+		return  new LinkedList<Integer>(Arrays.asList(production));
 		
 	}
 	
@@ -1279,5 +1292,6 @@ public class ParserTable {
 		
 		
 	}
+
 
 }
